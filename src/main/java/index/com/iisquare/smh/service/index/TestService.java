@@ -36,4 +36,9 @@ public class TestService {
 	public String conflict() {
 		return "I'm in index module.";
 	}
+	
+	public Test foreign() {
+		String hql = "from Test where parent.id = 0";
+		return testDao.queryObject(hql, null, "id");
+	}
 }

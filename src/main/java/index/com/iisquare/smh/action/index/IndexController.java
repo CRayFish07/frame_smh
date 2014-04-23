@@ -88,4 +88,11 @@ public class IndexController extends CController {
 		assign("hql", testService.account());
 		return displayJSON();
 	}
+	
+	/* 外键关联查询示例 */
+	public String foreignAction() throws Exception {
+		Test test = testService.foreign();
+		assign("test", test.getName());
+		return displayJSON();
+	}
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="profiler.settings.instrument.empty.methods">true</entry>
+<entry key="ProfilerCPUSettings_profile_runnables">true</entry>
+<entry key="profiler.settings.n.profiled.threads.limit">32</entry>
+<entry key="ProfilerCPUSettings_filter_type">2</entry>
+<entry key="profiler.settings.obj.alloc.stack.sampling.depth">-1</entry>
+<entry key="profiler.settings.instrument.method.invoke">true</entry>
+<entry key="profiler.settings.instr.scheme">1</entry>
+<entry key="ProfilerMemorySettings_track_every">10</entry>
+<entry key="ProfilerMemorySettings_mode">4</entry>
+<entry key="ProfilerCPUSettings_root_classes">com.iisquare.smh.action.admin.**
+com.iisquare.smh.action.index.**
+com.iisquare.smh.core.component.**
+com.iisquare.smh.dao.admin.**
+com.iisquare.smh.dao.index.**
+com.iisquare.smh.domain.index.**
+com.iisquare.smh.frame.**
+com.iisquare.smh.service.admin.**
+com.iisquare.smh.service.index.**
+com.iisquare.smh.test.**
+</entry>
+<entry key="ProfilerCPUSettings_filter_value">com.iisquare.smh.action.admin.*,&#13;
+com.iisquare.smh.action.index.*,&#13;
+com.iisquare.smh.core.component.*,&#13;
+com.iisquare.smh.dao.admin.*,&#13;
+com.iisquare.smh.dao.index.*,&#13;
+com.iisquare.smh.domain.index.*,&#13;
+com.iisquare.smh.frame.*,&#13;
+com.iisquare.smh.service.admin.*,&#13;
+com.iisquare.smh.service.index.*,&#13;
+com.iisquare.smh.test.*</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">true</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="ProfilerMemorySettings_stacktraces">-1</entry>
+<entry key="profiler.settings.sampling.interval">10</entry>
+<entry key="profiler.settings.cpu.profiling.type">0</entry>
+</properties>
