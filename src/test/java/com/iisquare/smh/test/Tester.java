@@ -9,8 +9,7 @@ public class Tester {
 	}
 	
 	public static void main(String[] args) {
-		String str = "asfds";
-		String[] strs = str.split("\\s+");
-		Tester.print(strs);
+		String str = "parent.id";
+		System.out.println(str.replaceAll("\\.", "_"));
 	}
 }

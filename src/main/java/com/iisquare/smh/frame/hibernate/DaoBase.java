@@ -133,8 +133,7 @@ public abstract class DaoBase<T> {
 			hqlBuffer.append(" is null");
 			return executeUpdate(hqlBuffer.toString(), null);
 		} else {
-			hqlBuffer.append(" = :")
-					.append(fieldKey);
+			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
 			return executeUpdate(hqlBuffer.toString(), params);
@@ -155,7 +154,7 @@ public abstract class DaoBase<T> {
 			if(null == item.getValue()) {
 				hqlBuffer.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(item.getKey());
+				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
 		return executeUpdate(hqlBuffer.toString(), params);
@@ -256,7 +255,7 @@ public abstract class DaoBase<T> {
 			hqlBuffer.append(" is null");
 			return queryCount(hqlBuffer.toString(), null);
 		} else {
-			hqlBuffer.append(" = :").append(fieldKey);
+			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
 			return queryCount(hqlBuffer.toString(), params);
@@ -277,7 +276,7 @@ public abstract class DaoBase<T> {
 			if(null == item.getValue()) {
 				hqlBuffer.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(item.getKey());
+				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
 		return queryCount(hqlBuffer.toString(), params);
@@ -443,7 +442,7 @@ public abstract class DaoBase<T> {
 			hqlBuffer.append(" is null");
 			return queryObject(hqlBuffer.toString(), null, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(fieldKey);
+			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue); 
 			return queryObject(hqlBuffer.toString(), params, orderBy);
@@ -465,7 +464,7 @@ public abstract class DaoBase<T> {
 			if(null == item.getValue()) {
 				hqlBuffer.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(item.getKey());
+				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
 		return queryObject(hqlBuffer.toString(), params, orderBy);
@@ -862,7 +861,7 @@ public abstract class DaoBase<T> {
 			hqlBuffer.append(" is null");
 			return queryList(hqlBuffer.toString(), null, recordFirst, recordNum, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(fieldKey);
+			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
 			return queryList(hqlBuffer.toString(), params, recordFirst, recordNum, orderBy);
@@ -887,7 +886,7 @@ public abstract class DaoBase<T> {
 			if(null == item.getValue()) {
 				hqlBuffer.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(item.getKey());
+				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
 		return queryList(hqlBuffer.toString(), params, recordFirst, recordNum, orderBy);
@@ -1266,7 +1265,7 @@ public abstract class DaoBase<T> {
 			hqlBuffer.append(" is null");
 			return queryList(hqlBuffer.toString(), null, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(fieldKey);
+			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
 			return queryList(hqlBuffer.toString(), params, orderBy);
@@ -1288,7 +1287,7 @@ public abstract class DaoBase<T> {
 			if(null == item.getValue()) {
 				hqlBuffer.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(item.getKey());
+				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
 		return queryList(hqlBuffer.toString(), params, orderBy);
@@ -1580,7 +1579,7 @@ public abstract class DaoBase<T> {
 			return;
 		}
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			query.setParameter(item.getKey(), item.getValue());
+			query.setParameter(convertParamsKey(item.getKey()), item.getValue());
 		}
 	}
 	
@@ -1664,6 +1663,15 @@ public abstract class DaoBase<T> {
 			
 		}
 		return list;
+	}
+	
+	/**
+	 * 将SQL中=：参数中的.替换为伪代码的合法命名
+	 * @param key
+	 * @return
+	 */
+	public String convertParamsKey(String key) {
+		return key.replaceAll("\\.", "_");
 	}
 	
 	/**

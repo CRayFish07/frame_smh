@@ -38,7 +38,6 @@ public class TestService {
 	}
 	
 	public Test foreign() {
-		String hql = "from Test where parent.id = 0";
-		return testDao.queryObject(hql, null, "id");
+		return testDao.queryObjectByField("parent.id", 0);
 	}
 }
