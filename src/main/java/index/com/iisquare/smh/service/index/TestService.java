@@ -38,6 +38,6 @@ public class TestService {
 	}
 	
 	public Test foreign() {
-		return testDao.queryObjectByField("parent.id", 0);
+		return testDao.queryObjectByField("parent.id", 1);
 	}
 }

@@ -39,17 +39,8 @@ public class Test {
 		return parent;
 	}
 	
-	/**
-	 * 采用数值0代替外键null避免全表扫描
-	 * 此时对应的字段应该设置了not null default 0
-	 * @param parent
-	 */
 	public void setParent(Test parent) {
-		if(null != parent && 0 == parent.getId()) {
-			this.parent = null;
-		} else {
-			this.parent = parent;
-		}
+		this.parent = parent;
 	}
 	
 	public String getName() {

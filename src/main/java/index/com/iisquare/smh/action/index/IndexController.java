@@ -92,7 +92,6 @@ public class IndexController extends CController {
 	/* 外键关联查询示例 */
 	public String foreignAction() throws Exception {
 		Test test = testService.foreign();
-		// 此时获取test.parent会产生异常
 		assign("test", test.getName());
 		return displayJSON();
 	}
