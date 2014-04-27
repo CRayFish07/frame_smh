@@ -39,8 +39,17 @@ public class Test {
 		return parent;
 	}
 	
+	/**
+	 * 采用数值0代替外键null避免全表扫描
+	 * 此时对应的字段应该设置了not null default 0
+	 * @param parent
+	 */
 	public void setParent(Test parent) {
-		this.parent = parent;
+		if(null != parent && 0 == parent.getId()) {
+			this.parent = null;
+		} else {
+			this.parent = parent;
+		}
 	}
 	
 	public String getName() {
@@ -53,5 +62,12 @@ public class Test {
 	
 	public Test() {
 		
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(null != obj && obj instanceof Test
+				&& id.equals(((Test) obj).getId())) return true;
+		return false;
 	}
 }

@@ -72,7 +72,8 @@
 		</property>
 		<property name="packagesToScan" value="com.iisquare.smh.domain.*" />
 	</bean>
-
+	
+	<!-- 事务在一定程度上会影响执行效率，请结合实际业务灵活处理
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -89,4 +90,5 @@
 			expression="execution(* com.iisquare.smh.service..*.*(..))" />
 		<aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
 	</aop:config>
+	 -->
 </beans>
