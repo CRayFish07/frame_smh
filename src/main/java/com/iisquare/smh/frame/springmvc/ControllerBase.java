@@ -31,6 +31,7 @@ public abstract class ControllerBase {
 	
 	@Autowired
 	private FrameConfiguration frameConfiguration;
+	private static String CONTENT_TYPE = "text/html;charset=utf-8";
 	
 	public ControllerBase _BASE_;
 	public HttpServletRequest _REQUEST_;
@@ -183,27 +184,55 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayText(String text) throws Exception {
+		return displayText(text, CONTENT_TYPE);
+	}
+	
+	/**
+	 * 输出文本信息
+	 * @param text
+	 * @param contentType 页面编码字符串
+	 * @return
+	 * @throws Exception
+	 */
+	protected String displayText(String text, String contentType) throws Exception {
+		_RESPONSE_.setContentType(contentType);
 		return display(text, ControllerResultType._TEXT_);
 	}
 	
+	/**
+	 * 将assign中的数据输出为JSON格式
+	 * @return
+	 * @throws Exception
+	 */
 	protected String displayJSON() throws Exception {
 		return displayJSON(_ASSIGN_);
 	}
 	
 	/**
 	 * 输出JSON信息
-	 * @param object
+	 * @param object 对输出对象
 	 * @return
 	 * @throws Exception
 	 */
 	protected String displayJSON(Object object) throws Exception {
+		return displayJSON(object, CONTENT_TYPE);
+	}
+	
+	/**
+	 * 输出JSON信息
+	 * @param object 待输出对象
+	 * @param contentType 页面编码字符串
+	 * @return
+	 * @throws Exception
+	 */
+	protected String displayJSON(Object object, String contentType) throws Exception {
 		String result;
 		if(object instanceof Map) {
 			result = JSONObject.fromObject(object).toString();
 		} else {
 			result = JSONArray.fromObject(object).toString();
 		}
-		return display(result, ControllerResultType._TEXT_);
+		return displayText(result, contentType);
 	}
 	
 	protected String redirect() throws Exception {

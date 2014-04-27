@@ -38,7 +38,7 @@
 		<!-- 页面上下文，类似于request.contextPath -->
 		<property name="requestContextAttribute" value="rc" />
 		<!-- 模板输出内容编码，此处应与defaultEncoding保持一致 -->
-		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="contentType" value="text/html;charset=utf-8" />
 	</bean>
 
 	<bean id="freeMarkerConfigurer"
