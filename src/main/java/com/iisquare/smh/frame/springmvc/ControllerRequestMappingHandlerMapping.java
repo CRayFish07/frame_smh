@@ -60,16 +60,16 @@ public class ControllerRequestMappingHandlerMapping extends
 			/* 提取Action名称 */
 			actionName = actionName.substring(0, actionName.lastIndexOf(frameConfiguration.getActionSuffix()));
 			/* 组合Pattern路径 */
-			StringBuffer patternBuffer = new StringBuffer();
+			StringBuilder pb = new StringBuilder();
 			if(0 < moduleName.length()) {
-				patternBuffer.append("/")
+				pb.append("/")
 						.append(moduleName.replaceAll("\\.", "/"));
 			}
-			patternBuffer.append("/")
+			pb.append("/")
 					.append(controllerName)
 					.append("/")
 					.append(actionName);
-			String[] patterns = {patternBuffer.toString()};
+			String[] patterns = {pb.toString()};
 			/* 生成RequestMappingInfo对象 */
 			RequestCondition<?> methodCondition = getCustomMethodCondition(method);
 			info = new RequestMappingInfo(

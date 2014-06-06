@@ -82,10 +82,14 @@ Domain层应尽量避免过于复杂或可能产生性能的映射关系，并�
 全部查询及注解等字段采用对象属性名称而非数据库表字段名称。
 建议将公用的参数验证，放在对应Controller的setXX方法中。
 优先采用FreeMarker视图，具有较好的null值容错处理。
-可变字符串优先采用StringBuffer，优先采用for(Map.Entry<String, Object> item : map.entrySet())遍历Map，
+
+StringBuffer线程同步，单线程中优先采用StringBuilder，注意subString等内部数组拷贝引起的内存溢出问题。
+Vector线程同步，单线程中优先采用ArrayList，forEeach会被编译优化为Iterator，采用for循环效率会更高。
+HashTable线程同步，单线程中优先采用HashMap，尽量指定capacity容量和factor负载因子大小，优先采用Map.Entry遍历。
 其他数据类型视执行效率进行灵活调整。
 在遍历Map过程中,不能用map.put(key,newVal),map.remove(key)来修改和删除元素，会引发并发修改异常,
 可以通过迭代器Iterator<Map.Entry<Integer, String>> it = map.entrySet().iterator()的it.remove()。
+
 放弃采用?组合SQL语句，采用JPA规范:name赋值。
 HQL语句中，不可以直接使用数据库表名和字段名，应按照面向对象的语法进行书写。
 当一个视图文件仅用来被包含时，需要添加.inc.后缀，以提高系统的安全性。

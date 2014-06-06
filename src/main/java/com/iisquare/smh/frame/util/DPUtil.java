@@ -55,7 +55,7 @@ public class DPUtil {
 	 * @return 大写32位字符串
 	 */
 	public static String MD5(String str) {
-		StringBuffer sb = new StringBuffer(32);
+		StringBuilder sb = new StringBuilder(32);
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] array = md.digest(str.getBytes("UTF-8"));
@@ -362,7 +362,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String implode(String split, List<?> list, String prefix, String subffix) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if(null == list) return "";
 		int size = list.size();
 		if(1 > size) return "";
@@ -400,7 +400,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String implode(String split, Set<?> set, String prefix, String subffix) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if(null == set) return "";
 		if(1 > set.size()) return "";
 		Iterator<?> item = set.iterator();
@@ -440,7 +440,7 @@ public class DPUtil {
 	 * @return
 	 */
 	public static String implode(String split, Map<?, ?> map, String prefix, String subffix) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Set<?> set = map.keySet();
 		int i = 1, size = set.size();
 		for(Object key : set) {
@@ -508,7 +508,7 @@ public class DPUtil {
 	public static String makeIds(Object ids, String divide, String wrap) {
 		if(empty(ids)) return "";
 		String[] idArray = ids.toString().split(divide);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(String id : idArray) {
 			sb.append(wrap + parseInt(id) +  wrap);
 		}

@@ -96,15 +96,15 @@ public class ServletUtil {
 	}
 	
 	public static String getWebUrl(HttpServletRequest request) {
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(request.getScheme())
+		StringBuilder sb = new StringBuilder();
+		sb.append(request.getScheme())
 				.append("://")
 				.append(request.getServerName());
 		if(80 != request.getServerPort()) {
-			stringBuffer.append(":").append(request.getServerPort());
+			sb.append(":").append(request.getServerPort());
 		}
-		stringBuffer.append(request.getContextPath());
-		return stringBuffer.toString();
+		sb.append(request.getContextPath());
+		return sb.toString();
 	}
 	
 	public static String getDirectorySeparator(HttpServletRequest request) {

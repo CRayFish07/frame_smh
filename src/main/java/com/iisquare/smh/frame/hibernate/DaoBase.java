@@ -126,17 +126,17 @@ public abstract class DaoBase<T> {
 	 * @return 影响行数
 	 */
 	public int deleteByField(String fieldKey, Object fieldValue) {
-		StringBuffer hqlBuffer = new StringBuffer("delete from ")
+		StringBuilder hb = new StringBuilder("delete from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(fieldKey);
 		if(null == fieldKey) {
-			hqlBuffer.append(" is null");
-			return executeUpdate(hqlBuffer.toString(), null);
+			hb.append(" is null");
+			return executeUpdate(hb.toString(), null);
 		} else {
-			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
+			hb.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
-			return executeUpdate(hqlBuffer.toString(), params);
+			return executeUpdate(hb.toString(), params);
 		}
 	}
 	
@@ -146,18 +146,18 @@ public abstract class DaoBase<T> {
 	 * @return 影响行数
 	 */
 	public int deleteByFields(Map<String, Object> params) {
-		StringBuffer hqlBuffer = new StringBuffer("delete from ")
+		StringBuilder hb = new StringBuilder("delete from ")
 				.append(entityClass.getSimpleName())
 				.append(" where 1 = 1");
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			hqlBuffer.append(" and ");
+			hb.append(" and ");
 			if(null == item.getValue()) {
-				hqlBuffer.append(item.getKey()).append(" is null");
+				hb.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
+				hb.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
-		return executeUpdate(hqlBuffer.toString(), params);
+		return executeUpdate(hb.toString(), params);
 	}
 
 	/**
@@ -195,11 +195,11 @@ public abstract class DaoBase<T> {
 	 * @return 影响行数
 	 */
 	public int deleteByIds(String keyName, String ids) {
-		StringBuffer hqlBuffer = new StringBuffer("delete from ")
+		StringBuilder hb = new StringBuilder("delete from ")
 		.append(entityClass.getSimpleName())
 		.append(" where ").append(keyName)
 		.append(" in (").append(ids).append(")");
-		return executeUpdate(hqlBuffer.toString(), null);
+		return executeUpdate(hb.toString(), null);
 	}
 	
 	/**
@@ -207,9 +207,9 @@ public abstract class DaoBase<T> {
 	 * @return 影响行数
 	 */
 	public int truncate() {
-		StringBuffer sqlBuffer = new StringBuffer("truncate ")
+		StringBuilder sb = new StringBuilder("truncate ")
 				.append(T(entityClass.getSimpleName()));
-		return executeSQLUpdate(sqlBuffer.toString(), null);
+		return executeSQLUpdate(sb.toString(), null);
 	}
 
 	/**
@@ -236,9 +236,9 @@ public abstract class DaoBase<T> {
 	 * @return 记录行数
 	 */
 	public int queryCount() {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName());
-		return queryCount(hqlBuffer.toString(), null);
+		return queryCount(hb.toString(), null);
 	}
 	
 	/**
@@ -248,17 +248,17 @@ public abstract class DaoBase<T> {
 	 * @return 记录行数
 	 */
 	public int queryCountByField(String fieldKey, Object fieldValue) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(fieldKey);
 		if(null == fieldValue) {
-			hqlBuffer.append(" is null");
-			return queryCount(hqlBuffer.toString(), null);
+			hb.append(" is null");
+			return queryCount(hb.toString(), null);
 		} else {
-			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
+			hb.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
-			return queryCount(hqlBuffer.toString(), params);
+			return queryCount(hb.toString(), params);
 		}
 	}
 	
@@ -268,18 +268,18 @@ public abstract class DaoBase<T> {
 	 * @return 记录行数
 	 */
 	public int queryCountByFields(Map<String, Object> params) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where 1 = 1");
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			hqlBuffer.append(" and ");
+			hb.append(" and ");
 			if(null == item.getValue()) {
-				hqlBuffer.append(item.getKey()).append(" is null");
+				hb.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
+				hb.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
-		return queryCount(hqlBuffer.toString(), params);
+		return queryCount(hb.toString(), params);
 	}
 	
 	/**
@@ -292,10 +292,10 @@ public abstract class DaoBase<T> {
 		String regexSelectFrom = "^((?i)select)(.+)((?i)from)";
 		String regexFrom = "^((?i)from)";
 		String sqlCountName = "COUNT(*)";
-		StringBuffer stringBuffer = new StringBuffer("$1 ").append(sqlCountName).append(" $3");
-		hql = hql.replaceFirst(regexSelectFrom, stringBuffer.toString());
-		stringBuffer = new StringBuffer("select ").append(sqlCountName).append(" $1");
-		hql = hql.replaceFirst(regexFrom, stringBuffer.toString());
+		StringBuilder sb = new StringBuilder("$1 ").append(sqlCountName).append(" $3");
+		hql = hql.replaceFirst(regexSelectFrom, sb.toString());
+		sb = new StringBuilder("select ").append(sqlCountName).append(" $1");
+		hql = hql.replaceFirst(regexFrom, sb.toString());
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		setQueryParams(query, params);
 		return (new Integer(query.setFirstResult(0).setMaxResults(1).uniqueResult().toString())).intValue();
@@ -355,9 +355,9 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象
 	 */
 	public T queryObject(String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName());
-		return queryObject(hqlBuffer.toString(), null, orderBy);
+		return queryObject(hb.toString(), null, orderBy);
 	}
 
 	/**
@@ -435,17 +435,17 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象
 	 */
 	public T queryObjectByField(String fieldKey, Object fieldValue, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(fieldKey);
 		if(null == fieldValue) {
-			hqlBuffer.append(" is null");
-			return queryObject(hqlBuffer.toString(), null, orderBy);
+			hb.append(" is null");
+			return queryObject(hb.toString(), null, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
+			hb.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue); 
-			return queryObject(hqlBuffer.toString(), params, orderBy);
+			return queryObject(hb.toString(), params, orderBy);
 		}
 	}
 	
@@ -456,18 +456,18 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象
 	 */
 	public T queryObjectByFields(Map<String, Object> params, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where 1 = 1");
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			hqlBuffer.append(" and ");
+			hb.append(" and ");
 			if(null == item.getValue()) {
-				hqlBuffer.append(item.getKey()).append(" is null");
+				hb.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
+				hb.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
-		return queryObject(hqlBuffer.toString(), params, orderBy);
+		return queryObject(hb.toString(), params, orderBy);
 	}
 
 	/**
@@ -545,9 +545,9 @@ public abstract class DaoBase<T> {
 	@SuppressWarnings("unchecked")
 	public T queryObject(String hql, Map<String, Object> params, String orderBy) {
 		if(null != orderBy) {
-			StringBuffer hqlBuffer = new StringBuffer(hql)
+			StringBuilder hb = new StringBuilder(hql)
 					.append(" order by ").append(orderBy);
-			hql = hqlBuffer.toString();
+			hql = hb.toString();
 		}
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		setQueryParams(query, params);
@@ -706,11 +706,11 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryListByIds(String keyName, String ids, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(keyName)
 				.append(" in (").append(ids).append(")");
-		return queryList(hqlBuffer.toString(), null, orderBy);
+		return queryList(hb.toString(), null, orderBy);
 	}
 
 	/**
@@ -758,9 +758,9 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryList(int recordFirst, int recordNum, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName());
-		return queryList(hqlBuffer.toString(), null, recordFirst, recordNum, orderBy);
+		return queryList(hb.toString(), null, recordFirst, recordNum, orderBy);
 	}
 
 	/**
@@ -854,17 +854,17 @@ public abstract class DaoBase<T> {
 	 */
 	public List<T> queryListByField(String fieldKey, Object fieldValue,
 			int recordFirst, int recordNum, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(fieldKey);
 		if(null == fieldValue) {
-			hqlBuffer.append(" is null");
-			return queryList(hqlBuffer.toString(), null, recordFirst, recordNum, orderBy);
+			hb.append(" is null");
+			return queryList(hb.toString(), null, recordFirst, recordNum, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
+			hb.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
-			return queryList(hqlBuffer.toString(), params, recordFirst, recordNum, orderBy);
+			return queryList(hb.toString(), params, recordFirst, recordNum, orderBy);
 		}
 	}
 	
@@ -878,18 +878,18 @@ public abstract class DaoBase<T> {
 	 */
 	public List<T> queryListByFields(Map<String, Object> params,
 			int recordFirst, int recordNum, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where 1 = 1");
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			hqlBuffer.append(" and ");
+			hb.append(" and ");
 			if(null == item.getValue()) {
-				hqlBuffer.append(item.getKey()).append(" is null");
+				hb.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
+				hb.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
-		return queryList(hqlBuffer.toString(), params, recordFirst, recordNum, orderBy);
+		return queryList(hb.toString(), params, recordFirst, recordNum, orderBy);
 	}
 
 	/**
@@ -977,9 +977,9 @@ public abstract class DaoBase<T> {
 	public List<T> queryList(String hql, Map<String, Object> params,
 			int recordFirst, int recordNum, String orderBy) {
 		if(null != orderBy) {
-			StringBuffer hqlBuffer = new StringBuffer(hql)
+			StringBuilder hb = new StringBuilder(hql)
 					.append(" order by ").append(orderBy);
-			hql = hqlBuffer.toString();
+			hql = hb.toString();
 		}
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		setQueryParams(query, params);
@@ -1178,9 +1178,9 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryList(String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName());
-		return queryList(hqlBuffer.toString(), null, orderBy);
+		return queryList(hb.toString(), null, orderBy);
 	}
 
 	/**
@@ -1258,17 +1258,17 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryListByField(String fieldKey, Object fieldValue, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where ").append(fieldKey);
 		if(null == fieldValue) {
-			hqlBuffer.append(" is null");
-			return queryList(hqlBuffer.toString(), null, orderBy);
+			hb.append(" is null");
+			return queryList(hb.toString(), null, orderBy);
 		} else {
-			hqlBuffer.append(" = :").append(convertParamsKey(fieldKey));
+			hb.append(" = :").append(convertParamsKey(fieldKey));
 			Map<String, Object> params = new HashMap<String, Object>(1);
 			params.put(fieldKey, fieldValue);
-			return queryList(hqlBuffer.toString(), params, orderBy);
+			return queryList(hb.toString(), params, orderBy);
 		}
 	}
 	
@@ -1279,18 +1279,18 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryListByFields(Map<String, Object> params, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName())
 				.append(" where 1 = 1");
 		for(Map.Entry<String, Object> item : params.entrySet()) {
-			hqlBuffer.append(" and ");
+			hb.append(" and ");
 			if(null == item.getValue()) {
-				hqlBuffer.append(item.getKey()).append(" is null");
+				hb.append(item.getKey()).append(" is null");
 			} else {
-				hqlBuffer.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
+				hb.append(item.getKey()).append(" = :").append(convertParamsKey(item.getKey()));
 			}
 		}
-		return queryList(hqlBuffer.toString(), params, orderBy);
+		return queryList(hb.toString(), params, orderBy);
 	}
 
 	/**
@@ -1368,9 +1368,9 @@ public abstract class DaoBase<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> queryList(String hql, Map<String, Object> params, String orderBy) {
 		if(null != orderBy) {
-			StringBuffer hqlBuffer = new StringBuffer(hql)
+			StringBuilder hb = new StringBuilder(hql)
 					.append(" order by ").append(orderBy);
-			hql = hqlBuffer.toString();
+			hql = hb.toString();
 		}
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		setQueryParams(query, params);
@@ -1407,9 +1407,9 @@ public abstract class DaoBase<T> {
 	 * @return 实体对象列表
 	 */
 	public List<T> queryPage(int page, int pageSize, String orderBy) {
-		StringBuffer hqlBuffer = new StringBuffer("from ")
+		StringBuilder hb = new StringBuilder("from ")
 				.append(entityClass.getSimpleName());
-		return queryPage(hqlBuffer.toString(), null, page, pageSize, orderBy);
+		return queryPage(hb.toString(), null, page, pageSize, orderBy);
 	}
 
 	/**
@@ -1680,9 +1680,9 @@ public abstract class DaoBase<T> {
 	 * @return 数据库表名称
 	 */
 	public String T(String className) {
-		StringBuffer stringBuffer = new StringBuffer(daoNamingStrategy.getTablePrefix())
+		StringBuilder sb = new StringBuilder(daoNamingStrategy.getTablePrefix())
 				.append(DPUtil.addUnderscores(StringHelper.unqualify(className)));
-		 return stringBuffer.toString();
+		 return sb.toString();
 	}
 	
 	/**

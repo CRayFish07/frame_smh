@@ -65,16 +65,16 @@ public abstract class ControllerBase {
 		if(DPUtil.empty(frameConfiguration.getSkinFolder())) {
 			_SKIN_URL_ = _WEB_URL_;
 		} else {
-			StringBuffer stringBuffer = new StringBuffer(_WEB_URL_);
-			stringBuffer.append("/").append(frameConfiguration.getSkinFolder());
-			_SKIN_URL_ = stringBuffer.toString();
+			StringBuilder sb = new StringBuilder(_WEB_URL_);
+			sb.append("/").append(frameConfiguration.getSkinFolder());
+			_SKIN_URL_ = sb.toString();
 		}
 		if(DPUtil.empty(frameConfiguration.getThemeName())) {
 			_THEME_URL_ = _SKIN_URL_;
 		} else {
-			StringBuffer stringBuffer = new StringBuffer(_SKIN_URL_);
-			stringBuffer.append("/").append(frameConfiguration.getThemeName());
-			_THEME_URL_ = stringBuffer.toString();
+			StringBuilder sb = new StringBuilder(_SKIN_URL_);
+			sb.append("/").append(frameConfiguration.getThemeName());
+			_THEME_URL_ = sb.toString();
 		}
 		_DIRECTORY_SEPARATOR_ = ServletUtil.getDirectorySeparator(request);
 		Method method = ((HandlerMethod) handler).getMethod();
@@ -146,7 +146,7 @@ public abstract class ControllerBase {
 	 * @return
 	 */
 	protected String url(String module, String controller, String action) {
-		StringBuffer sb = new StringBuffer("/");
+		StringBuilder sb = new StringBuilder("/");
 		sb.append(module).append("/").append(controller).append("/").append(action);
 		return sb.toString();
 	}
@@ -172,7 +172,7 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String displayTemplate(String module, String controller, String action) throws Exception {
-		StringBuffer sb = new StringBuffer("/");
+		StringBuilder sb = new StringBuilder("/");
 		sb.append(module).append("/").append(controller).append("/").append(action);
 		return display(sb.toString(), ControllerResultType._FREEMARKER_);
 	}
@@ -267,7 +267,7 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String redirect(String module, String controller, String action, String params) throws Exception {
-		StringBuffer sb = new StringBuffer("/");
+		StringBuilder sb = new StringBuilder("/");
 		sb.append(module).append("/").append(controller).append("/").append(action).append(params);
 		return display(sb.toString(), ControllerResultType._REDIRECT_);
 	}
@@ -282,9 +282,9 @@ public abstract class ControllerBase {
 	protected String display(String result, String type) throws Exception {
 		if(ControllerResultType._FREEMARKER_ == type) {
 			if(!DPUtil.empty(frameConfiguration.getThemeName())) {
-				StringBuffer stringBuffer = new StringBuffer("/");
-				stringBuffer.append(frameConfiguration.getThemeName()).append(result);
-				return stringBuffer.toString();
+				StringBuilder sb = new StringBuilder("/");
+				sb.append(frameConfiguration.getThemeName()).append(result);
+				return sb.toString();
 			}
 			return result;
 		} else if(ControllerResultType._TEXT_ == type){

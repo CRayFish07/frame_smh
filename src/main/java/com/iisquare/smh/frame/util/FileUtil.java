@@ -37,13 +37,13 @@ public class FileUtil {
 		if (!file.isFile()) return null;
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(file));
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			String text;
 			while ((text = input.readLine()) != null) {
-				buffer.append(text);
-				if(!bDislodgeLine) buffer.append("\n");
+				sb.append(text);
+				if(!bDislodgeLine) sb.append("\n");
 			}
-			output = buffer.toString();
+			output = sb.toString();
 		} catch (IOException ioException) {
 			return null;
 		}
