@@ -2,6 +2,7 @@ package com.iisquare.smh.frame.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Properties;
@@ -33,14 +34,20 @@ public class PropertiesUtil {
 	}
 	
 	public static boolean store(Properties prop, String comments, File file) {
-        try {
-        	FileOutputStream fos = new FileOutputStream(file);
+		FileOutputStream fos = null;
+		try {
+        	fos = new FileOutputStream(file);
             prop.store(fos, comments);
-			fos.close();
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return false;
+		} finally {
+			if(null != fos) {
+				try {
+					fos.close();
+				} catch (IOException e) {}
+			}
 		}
 	}
 	

@@ -1,14 +1,19 @@
 package com.iisquare.smh.frame.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * 文件处理操作类
  */
 public class FileUtil {
+	
+	public static final String encoding = "UTF-8";
 	
 	public static boolean isExists(String filePath) {
 		File file = new File(filePath);
@@ -35,18 +40,34 @@ public class FileUtil {
 		File file = new File(fileName);
 		if (!file.exists()) return null;
 		if (!file.isFile()) return null;
+		InputStream inputStream = null;
+        InputStreamReader inputReader = null;
+        BufferedReader bufferReader = null;
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(file));
+			inputStream = new FileInputStream(file);
+            inputReader = new InputStreamReader(inputStream, encoding);
+            bufferReader = new BufferedReader(inputReader);
 			StringBuilder sb = new StringBuilder();
 			String text;
-			while ((text = input.readLine()) != null) {
+			while ((text = bufferReader.readLine()) != null) {
 				sb.append(text);
 				if(!bDislodgeLine) sb.append("\n");
 			}
-			output = sb.toString();
+			int length = sb.length();
+			output = length > 0 ? sb.substring(0, length - 1) : sb.toString();
 		} catch (IOException ioException) {
 			return null;
+		} finally {
+			close(bufferReader, inputReader, inputStream);
 		}
 		return output; 
+	}
+	
+	public static void close(Closeable...args) {
+		try {
+			for (Closeable arg : args) {
+				if(null != arg) arg.close();
+			}
+		} catch (Exception e) {}
 	}
 }

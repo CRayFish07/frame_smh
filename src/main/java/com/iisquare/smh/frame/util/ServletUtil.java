@@ -16,10 +16,10 @@ import javax.servlet.http.HttpSession;
  */
 public class ServletUtil {
 	
-	public static String cookieEnc = "UTF-8";
+	public static final String cookieEncoding = "UTF-8";
 
 	public static void addCookie(HttpServletRequest request, HttpServletResponse response, String key, String value, int maxAge) throws UnsupportedEncodingException {
-		if(null != value) value = URLEncoder.encode(value, cookieEnc);
+		if(null != value) value = URLEncoder.encode(value, cookieEncoding);
 		Cookie cookie = new Cookie(key, value);
 		String host = request.getHeader("host");
 		if(host.indexOf(":") > -1) {
@@ -35,7 +35,7 @@ public class ServletUtil {
 		Cookie cookies[] = request.getCookies();
 		if(null == cookies) return null;
 		for(Cookie cookie : cookies) {
-			if(key.equals(cookie.getName())) return URLDecoder.decode(cookie.getValue(), cookieEnc);
+			if(key.equals(cookie.getName())) return URLDecoder.decode(cookie.getValue(), cookieEncoding);
 		}
 		return null;
 	}

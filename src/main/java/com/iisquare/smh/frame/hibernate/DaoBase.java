@@ -298,7 +298,7 @@ public abstract class DaoBase<T> {
 		hql = hql.replaceFirst(regexFrom, sb.toString());
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		setQueryParams(query, params);
-		return (new Integer(query.setFirstResult(0).setMaxResults(1).uniqueResult().toString())).intValue();
+		return DPUtil.parseInt(query.setFirstResult(0).setMaxResults(1).uniqueResult());
 	}
 	
 	/**

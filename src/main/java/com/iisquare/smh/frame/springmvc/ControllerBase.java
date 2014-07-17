@@ -280,19 +280,19 @@ public abstract class ControllerBase {
 	 * @throws Exception
 	 */
 	protected String display(String result, String type) throws Exception {
-		if(ControllerResultType._FREEMARKER_ == type) {
+		if(ControllerResultType._FREEMARKER_.equals(type)) {
 			if(!DPUtil.empty(frameConfiguration.getThemeName())) {
 				StringBuilder sb = new StringBuilder("/");
 				sb.append(frameConfiguration.getThemeName()).append(result);
 				return sb.toString();
 			}
 			return result;
-		} else if(ControllerResultType._TEXT_ == type){
+		} else if(ControllerResultType._TEXT_.equals(type)){
 			PrintWriter out = _RESPONSE_.getWriter();
 			out.print(result);
 			out.flush();
 			return "";
-		} else if (ControllerResultType._REDIRECT_ == type) {
+		} else if (ControllerResultType._REDIRECT_.equals(type)) {
 			return "redirect:" + result;
 		}
 		return null;

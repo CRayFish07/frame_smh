@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  */
 public class DPUtil {
 	
-	public static String regexDouble = "^-?\\d+(\\.\\d)*";
+	public static final String regexDouble = "^-?\\d+(\\.\\d)*";
 	
 	/**
 	 * null false "" 0 "0" 返回true
@@ -55,31 +55,20 @@ public class DPUtil {
 	 * @return 大写32位字符串
 	 */
 	public static String MD5(String str) {
-		StringBuilder sb = new StringBuilder(32);
 		try {
+			StringBuilder sb = new StringBuilder(32);
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] array = md.digest(str.getBytes("UTF-8"));
 			for (int i = 0; i < array.length; i++) {
 				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100)
 						.toUpperCase().substring(1, 3));
 			}
+			return sb.toString();
+		} catch (RuntimeException e) {
+			return null;
 		} catch (Exception e) {
 			return null;
 		}
-		return sb.toString();
-	}
-
-	/**
-	 * 界面MD5字符串，待完善
-	 * @param str
-	 * @return
-	 */
-	public static String UnMD5(String str) {
-		char[] ch = str.toCharArray();
-		for (int i = 0; i < ch.length; i++) {
-			ch[i] = (char) (ch[i] ^ 't');
-		}
-		return new String(ch);
 	}
 	
 	/**
@@ -274,7 +263,7 @@ public class DPUtil {
 	public static String[] explode(String string, String splitRegex, String trimStr) {
 		List<String> list = new ArrayList<String>(0);
 		if(DPUtil.empty(string)) {
-			return (String[]) list.toArray();
+			return new String[]{};
 		}
 		for (String str : string.split(splitRegex)) {
 			if(!DPUtil.empty(str)) {
@@ -297,7 +286,7 @@ public class DPUtil {
 	public static String[] explode(String string, String splitRegex) {
 		List<String> list = new ArrayList<String>(0);
 		if(DPUtil.empty(string)) {
-			return (String[]) list.toArray();
+			return new String[]{};
 		}
 		for (String str : string.split(splitRegex)) {
 			list.add(str);
